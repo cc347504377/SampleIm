@@ -224,7 +224,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
             @Override
             public void onClick(View v) {
-                if (chatType == EaseConstant.CHATTYPE_SINGLE) {
+                if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
                     emptyHistory();
                 } else {
                     toGroupDetails();

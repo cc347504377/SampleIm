@@ -1,6 +1,7 @@
 package com.example.luoye.sampleim.home.fragment;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.luoye.sampleim.R;
+import com.example.luoye.sampleim.chat.ChatActivity;
 import com.example.luoye.sampleim.home.presenter.ContactPresenter;
 import com.example.luoye.sampleim.util.FactoryUtils;
 import com.example.luoye.sampleim.util.PublicCallback;
 import com.example.luoye.sampleim.util.PublicUtils;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
+import com.hyphenate.easeui.widget.EaseContactList;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 import java.util.Hashtable;
@@ -41,6 +45,12 @@ public class ContactFragment extends EaseContactListFragment implements FactoryU
     private AlertDialog addDialog;
 
     @Override
+    protected void setUpView() {
+        super.setUpView();
+        init();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.ease_fragment_contact_list, container, false);
@@ -51,8 +61,21 @@ public class ContactFragment extends EaseContactListFragment implements FactoryU
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        addListener();
     }
+
+    private void addListener() {
+        setContactListItemClickListener(new EaseContactListItemClickListener() {
+
+            @Override
+            public void onListItemClicked(EaseUser user) {
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID, user.getNickname());
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void init() {
         //初始化presenter
@@ -60,10 +83,19 @@ public class ContactFragment extends EaseContactListFragment implements FactoryU
         //初始化数据
         titleBar.setRightImageResource(R.drawable.command_add);
         titleBar.setRightLayoutClickListener(new AddContactListener());
+        //初始化添加联系人
         presenter.initList(new PublicCallback.DataCallback<List<String>>() {
             @Override
             public void onSuccess(List<String> strings) {
-                PublicUtils.log(strings.toString());
+                Hashtable<String, EaseUser> map = new Hashtable<>();
+                for (String name : strings) {
+                    map.put("o", new EaseUser(name));
+                }
+                setContactsMap(map);
+                //初始化时需要传入联系人list
+                contactListLayout.init(contactList);
+                //刷新列表
+                contactListLayout.refresh();
             }
 
             @Override
@@ -71,9 +103,7 @@ public class ContactFragment extends EaseContactListFragment implements FactoryU
 
             }
         });
-        //初始化添加联系人
         addDialog = FactoryUtils.getDialogWithEidt(getContext(), this);
-
     }
 
     @Override
@@ -88,7 +118,7 @@ public class ContactFragment extends EaseContactListFragment implements FactoryU
     }
 
     /**
-     *联系人添加对话框监听
+     * 联系人添加对话框监听
      */
     @Override
     public void onClick(String s) {
@@ -106,7 +136,7 @@ public class ContactFragment extends EaseContactListFragment implements FactoryU
     }
 
     /**
-     *弹出添加对话框监听
+     * 弹出添加对话框监听
      */
     private class AddContactListener implements View.OnClickListener {
         @Override

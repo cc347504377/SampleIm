@@ -5,33 +5,39 @@
     android:layout_height="match_parent"
     tools:context="com.example.luoye.sampleim.home.activity.HomeActivity">
 
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/home_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <RadioButton
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/home_tab_conversation"
-            android:layout_width="match_parent"
+            android:src="@drawable/ic_tab_conversation"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true" />
+            android:layout_weight="1"/>
 
-        <RadioButton
+        <ImageView
             android:id="@+id/home_tab_contact"
-            android:layout_width="match_parent"
+            android:src="@drawable/ic_tab_contacts"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <RadioButton
+        <ImageView
             android:id="@+id/home_tab_set"
-            android:layout_width="match_parent"
+            android:src="@drawable/ic_tab_me"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-    </RadioGroup>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/home_frame"

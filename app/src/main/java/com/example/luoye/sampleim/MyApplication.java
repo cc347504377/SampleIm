@@ -24,5 +24,6 @@ public class MyApplication extends Application {
         EMOptions emOptions = new EMOptions();
         emOptions.setAcceptInvitationAlways(true);
         EaseUI.getInstance().init(this, emOptions);
+        EMClient.getInstance().setDebugMode(true);  //设置debug模式
     }
 }

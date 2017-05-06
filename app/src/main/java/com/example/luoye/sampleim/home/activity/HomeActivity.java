@@ -1,19 +1,18 @@
 package com.example.luoye.sampleim.home.activity;
 
-;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.example.luoye.sampleim.R;
 import com.example.luoye.sampleim.base.BaseActivity;
 import com.example.luoye.sampleim.home.fragment.ContactFragment;
 import com.example.luoye.sampleim.home.fragment.ConversationFragment;
 import com.example.luoye.sampleim.home.fragment.SetFragment;
-import com.example.luoye.sampleim.util.PublicUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +21,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+;
+
 public class HomeActivity extends BaseActivity {
 
     @BindView(R.id.home_frame)
     FrameLayout homeFrame;
+    @BindView(R.id.home_tab_conversation)
+    ImageView homeTabConversation;
     private List<Fragment> fragmentList;
     private Fragment conversationFragment;
     private Fragment contactFragment;
@@ -42,6 +45,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        homeTabConversation.setSelected(true);
         initFragment();
     }
 

@@ -28,6 +28,7 @@ public class LoginPresenter {
      */
 
     public interface LoginCallback {
+
         void onStart();
 
         void onSuccess();
